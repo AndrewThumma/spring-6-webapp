@@ -7,12 +7,13 @@ import org.springframework.stereotype.Controller;
 import guru.springframework.spring6webapp.services.GreetingService;
 
 @Controller
-public class SetterInjectedController {
+public class SetterInjectedController {    
     
-    @Autowired
     private GreetingService greetingService;
     
+    @Autowired
     public void setGreetingService(GreetingService greetingService) {
+        System.out.println("SetterInjectedController.setGreetingService");
         this.greetingService = greetingService;
     }
 
