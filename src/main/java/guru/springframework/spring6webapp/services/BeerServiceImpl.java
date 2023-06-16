@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import guru.springframework.spring6webapp.model.Beer;
 import guru.springframework.spring6webapp.model.BeerStyle;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 public class BeerServiceImpl implements BeerService{    
