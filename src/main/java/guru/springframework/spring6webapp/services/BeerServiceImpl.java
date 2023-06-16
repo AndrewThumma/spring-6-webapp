@@ -8,12 +8,17 @@ import org.springframework.stereotype.Service;
 
 import guru.springframework.spring6webapp.model.Beer;
 import guru.springframework.spring6webapp.model.BeerStyle;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class BeerServiceImpl implements BeerService{
 
     @Override
     public Beer getBeerById(UUID id) {
+        
+        log.debug("Get Beer Id in service was called");
+        
         return Beer.builder()
                 .id(id)
                 .version(1)
