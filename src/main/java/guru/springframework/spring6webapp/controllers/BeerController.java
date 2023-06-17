@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import guru.springframework.spring6webapp.model.Beer;
 import guru.springframework.spring6webapp.services.BeerService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/beer")
 public class BeerController {
