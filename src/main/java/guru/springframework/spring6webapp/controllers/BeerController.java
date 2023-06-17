@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,7 +50,7 @@ public class BeerController {
     }
 
      @PutMapping("/{beerId}")
-    public ResponseEntity updateById(@PathVariable("beerId") UUID beerId, @RequestBody Beer beer){
+    public ResponseEntity updateById(@PathVariable UUID beerId, @RequestBody Beer beer){
 
         beerService.updateBeerById(beerId, beer);
 
@@ -59,7 +58,7 @@ public class BeerController {
     }
 
     @DeleteMapping("/{beerId}")
-    public ResponseEntity deleteById(@PathVariable("beerId") UUID beerId){
+    public ResponseEntity deleteById(@PathVariable UUID beerId){
 
         beerService.deleteById(beerId);
 
@@ -67,7 +66,7 @@ public class BeerController {
     }
 
     @PatchMapping("/{beerId}")
-    public ResponseEntity updateBeerPatchId(@PathVariable("beerId") UUID beerId, @RequestBody Beer beer){
+    public ResponseEntity updateBeerPatchId(@PathVariable UUID beerId, @RequestBody Beer beer){
 
         beerService.patchBeerById(beerId, beer);
 
