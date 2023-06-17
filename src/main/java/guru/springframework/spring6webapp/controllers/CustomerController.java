@@ -49,7 +49,7 @@ public class CustomerController {
     }
 
    @PutMapping("/{customerId}")
-   public ResponseEntity updateCustomerById(@PathVariable("customerId") UUID customerId, @RequestBody Customer customer){
+   public ResponseEntity updateCustomerById(@PathVariable UUID customerId, @RequestBody Customer customer){
 
         customerService.updateCustomerById(customerId, customer);
         
@@ -57,7 +57,7 @@ public class CustomerController {
    }
 
    @DeleteMapping("/{customerId}")
-   public ResponseEntity deleteById(@PathVariable("customerId") UUID customerId){
+   public ResponseEntity deleteById(@PathVariable UUID customerId){
         
         customerService.deleteById(customerId);
 
