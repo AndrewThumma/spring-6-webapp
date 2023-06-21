@@ -17,6 +17,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -36,7 +37,7 @@ public class CustomerControllerTest {
     void testGetCustomerById() throws Exception{
         Customer testCustomer = service.listCustomers().get(0);
 
-        given(customerService.getCustomerById(testCustomer.getId())).willReturn(testCustomer);
+        given(customerService.getCustomerById(testCustomer.getId())).willReturn(Optional.of(testCustomer));
 
         mvc.perform(get(CustomerController.CUSTOMER_PATH_ID, testCustomer.getId())
             .accept(MediaType.APPLICATION_JSON))
@@ -49,7 +50,7 @@ public class CustomerControllerTest {
     @Test
     void getBeerByIdNotFound() throws Exception{
         
-        given(customerService.getCustomerById(any(UUID.class))).willThrow(NotFoundException.class);
+        given(customerService.getCustomerById(any(UUID.class))).willReturn(Optional.empty());
         
         mvc.perform(get(BeerController.BEER_PATH_ID, UUID.randomUUID()))        
             .andExpect(status().isNotFound());
