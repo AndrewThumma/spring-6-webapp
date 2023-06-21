@@ -15,7 +15,7 @@
     <description>Spring 6 Web App</description>
 
     <properties>
-        <jakarta-servlet.version>5.0.0</jakarta-servlet.version>
+        
         <java.version>17</java.version>
     </properties>
 
@@ -39,8 +39,7 @@
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
+            <artifactId>h2</artifactId>            
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
