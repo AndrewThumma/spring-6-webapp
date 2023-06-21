@@ -53,7 +53,7 @@ class BeerControllerTest {
 
         given(beerService.saveNewBeer(any(Beer.class))).willReturn(beerServiceImpl.listBeers().get(1));
 
-        mvc.perform(post("/api/v1/beer")
+        mvc.perform(post(BeerController.BEER_PATH)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(beer)))
@@ -77,7 +77,7 @@ class BeerControllerTest {
 
         given(beerService.getBeerById(testBeer.getId())).willReturn(testBeer);
 
-        mvc.perform(get("/api/v1/beer/" + testBeer.getId())
+        mvc.perform(get(BeerController.BEER_PATH + "/" + testBeer.getId())
                 .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -89,7 +89,7 @@ class BeerControllerTest {
     void testListBeers() throws Exception{
         given(beerService.listBeers()).willReturn(beerServiceImpl.listBeers());
 
-        mvc.perform(get("/api/v1/beer")
+        mvc.perform(get(BeerController.BEER_PATH)
             .accept(MediaType.APPLICATION_JSON))        
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -100,7 +100,7 @@ class BeerControllerTest {
     void testUpdateBeer() throws Exception{
         Beer beer = beerServiceImpl.listBeers().get(0);
 
-        mvc.perform(put("/api/v1/beer/" + beer.getId())
+        mvc.perform(put(BeerController.BEER_PATH + "/" + beer.getId())
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(beer)))

@@ -35,7 +35,7 @@ public class CustomerControllerTest {
 
         given(customerService.getCustomerById(testCustomer.getId())).willReturn(testCustomer);
 
-        mvc.perform(get("/api/v1/customer/" + testCustomer.getId())
+        mvc.perform(get(CustomerController.CUSTOMER_PATH + "/" + testCustomer.getId())
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -47,7 +47,7 @@ public class CustomerControllerTest {
     void testListCustomers() throws Exception{
         given(customerService.listCustomers()).willReturn(service.listCustomers());
 
-        mvc.perform(get("/api/v1/customer")
+        mvc.perform(get(CustomerController.CUSTOMER_PATH)
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
