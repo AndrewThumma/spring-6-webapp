@@ -7,7 +7,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import guru.springframework.spring6webapp.model.Customer;
+import guru.springframework.spring6webapp.model.CustomerDTO;
 import guru.springframework.spring6webapp.services.CustomerService;
 import guru.springframework.spring6webapp.services.CustomerServiceImpl;
 
@@ -35,7 +35,7 @@ public class CustomerControllerTest {
     
     @Test
     void testGetCustomerById() throws Exception{
-        Customer testCustomer = service.listCustomers().get(0);
+        CustomerDTO testCustomer = service.listCustomers().get(0);
 
         given(customerService.getCustomerById(testCustomer.getId())).willReturn(Optional.of(testCustomer));
 

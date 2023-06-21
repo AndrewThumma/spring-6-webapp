@@ -4,18 +4,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import guru.springframework.spring6webapp.model.Beer;
+import guru.springframework.spring6webapp.model.BeerDTO;
 
 public interface BeerService {
-    Optional<Beer> getBeerById(UUID id);
+    Optional<BeerDTO> getBeerById(UUID id);
     
-    public List<Beer> listBeers();
+    public List<BeerDTO> listBeers();
 
-    Beer saveNewBeer(Beer beer);
+    BeerDTO saveNewBeer(BeerDTO beer);
 
-    void updateBeerById(UUID id, Beer beer);
+    void updateBeerById(UUID id, BeerDTO beer);
 
     void deleteById(UUID beerId);
 
-    void patchBeerById(UUID beerId, Beer beer);
+    void patchBeerById(UUID beerId, BeerDTO beer);
 }

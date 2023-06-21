@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import guru.springframework.spring6webapp.model.Customer;
+import guru.springframework.spring6webapp.model.CustomerDTO;
 import guru.springframework.spring6webapp.services.CustomerService;
 import lombok.AllArgsConstructor;
 
@@ -28,19 +28,19 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping(CUSTOMER_PATH)
-    public List<Customer> listCustomers(){
+    public List<CustomerDTO> listCustomers(){
         return customerService.listCustomers();
     }
 
     @GetMapping(CUSTOMER_PATH_ID)
-    public Customer getCustomerById(@PathVariable("customerId") UUID id){
+    public CustomerDTO getCustomerById(@PathVariable("customerId") UUID id){
         return customerService.getCustomerById(id).orElseThrow(NotFoundException::new);
     }
 
     @PostMapping(CUSTOMER_PATH)
-    public ResponseEntity createCustomer(@RequestBody Customer customer){
+    public ResponseEntity createCustomer(@RequestBody CustomerDTO customer){
 
-        Customer savedCustomer = customerService.saveCustomer(customer);
+        CustomerDTO savedCustomer = customerService.saveCustomer(customer);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", CUSTOMER_PATH_ID + savedCustomer.getId().toString());
@@ -49,7 +49,7 @@ public class CustomerController {
     }
 
    @PutMapping(CUSTOMER_PATH_ID)
-   public ResponseEntity updateCustomerById(@PathVariable UUID customerId, @RequestBody Customer customer){
+   public ResponseEntity updateCustomerById(@PathVariable UUID customerId, @RequestBody CustomerDTO customer){
 
         customerService.updateCustomerById(customerId, customer);
         
