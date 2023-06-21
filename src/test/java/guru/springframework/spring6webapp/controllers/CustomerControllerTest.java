@@ -35,7 +35,7 @@ public class CustomerControllerTest {
 
         given(customerService.getCustomerById(testCustomer.getId())).willReturn(testCustomer);
 
-        mvc.perform(get(CustomerController.CUSTOMER_PATH + "/" + testCustomer.getId())
+        mvc.perform(get(CustomerController.CUSTOMER_PATH_ID, testCustomer.getId())
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))

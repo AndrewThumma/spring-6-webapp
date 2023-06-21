@@ -23,7 +23,7 @@ import lombok.AllArgsConstructor;
 public class CustomerController {
 
     public static final String CUSTOMER_PATH = "/api/v1/customer";
-    public static final String CUSTOMER_PATH_ID_STRING = CUSTOMER_PATH + "/{customerId}";
+    public static final String CUSTOMER_PATH_ID = CUSTOMER_PATH + "/{customerId}";
     
     private final CustomerService customerService;
 
@@ -32,7 +32,7 @@ public class CustomerController {
         return customerService.listCustomers();
     }
 
-    @GetMapping(CUSTOMER_PATH_ID_STRING)
+    @GetMapping(CUSTOMER_PATH_ID)
     public Customer getCustomerById(@PathVariable("customerId") UUID id){
         return customerService.getCustomerById(id);
     }
@@ -43,12 +43,12 @@ public class CustomerController {
         Customer savedCustomer = customerService.saveCustomer(customer);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", "/api/v1/customer/" + savedCustomer.getId().toString());
+        headers.add("Location", CUSTOMER_PATH_ID + savedCustomer.getId().toString());
 
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 
-   @PutMapping(CUSTOMER_PATH_ID_STRING)
+   @PutMapping(CUSTOMER_PATH_ID)
    public ResponseEntity updateCustomerById(@PathVariable UUID customerId, @RequestBody Customer customer){
 
         customerService.updateCustomerById(customerId, customer);
@@ -56,7 +56,7 @@ public class CustomerController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
    }
 
-   @DeleteMapping(CUSTOMER_PATH_ID_STRING)
+   @DeleteMapping(CUSTOMER_PATH_ID)
    public ResponseEntity deleteById(@PathVariable UUID customerId){
         
         customerService.deleteById(customerId);
