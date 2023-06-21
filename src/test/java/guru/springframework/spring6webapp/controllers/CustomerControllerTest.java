@@ -12,9 +12,12 @@ import guru.springframework.spring6webapp.services.CustomerService;
 import guru.springframework.spring6webapp.services.CustomerServiceImpl;
 
 import static org.hamcrest.core.Is.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.UUID;
 
 
 @WebMvcTest(CustomerController.class)
@@ -41,6 +44,15 @@ public class CustomerControllerTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id", is(testCustomer.getId().toString())))
             .andExpect(jsonPath("$.customerName", is(testCustomer.getCustomerName())));
+    }
+
+    @Test
+    void getBeerByIdNotFound() throws Exception{
+        
+        given(customerService.getCustomerById(any(UUID.class))).willThrow(NotFoundException.class);
+        
+        mvc.perform(get(BeerController.BEER_PATH_ID, UUID.randomUUID()))        
+            .andExpect(status().isNotFound());
     }
 
     @Test
