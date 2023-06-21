@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import guru.springframework.spring6webapp.model.Customer;
@@ -24,20 +23,23 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/customer")
 public class CustomerController {
+
+    public static final String CUSTOMER_PATH = "/api/v1/customer";
+    public static final String CUSTOMER_PATH_ID_STRING = CUSTOMER_PATH + "/{customerId}";
     
     private final CustomerService customerService;
 
-    @GetMapping()
+    @GetMapping(CUSTOMER_PATH)
     public List<Customer> listCustomers(){
         return customerService.listCustomers();
     }
 
-    @GetMapping("/{customerId}")
+    @GetMapping(CUSTOMER_PATH_ID_STRING)
     public Customer getCustomerById(@PathVariable("customerId") UUID id){
         return customerService.getCustomerById(id);
     }
 
-    @PostMapping()
+    @PostMapping(CUSTOMER_PATH)
     public ResponseEntity createCustomer(@RequestBody Customer customer){
 
         Customer savedCustomer = customerService.saveCustomer(customer);
@@ -48,7 +50,7 @@ public class CustomerController {
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 
-   @PutMapping("/{customerId}")
+   @PutMapping(CUSTOMER_PATH_ID_STRING)
    public ResponseEntity updateCustomerById(@PathVariable UUID customerId, @RequestBody Customer customer){
 
         customerService.updateCustomerById(customerId, customer);
@@ -56,7 +58,7 @@ public class CustomerController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
    }
 
-   @DeleteMapping("/{customerId}")
+   @DeleteMapping(CUSTOMER_PATH_ID_STRING)
    public ResponseEntity deleteById(@PathVariable UUID customerId){
         
         customerService.deleteById(customerId);

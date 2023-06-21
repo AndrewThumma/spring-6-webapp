@@ -22,23 +22,25 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/beer")
 public class BeerController {
+
+    public static final String BEER_PATH = "/api/v1/beer";
+    public static final String BEER_PATH_ID = BEER_PATH + "/{beerId}";
     
     private final BeerService beerService;
 
-    @GetMapping()
+    @GetMapping(BEER_PATH)
     public List<Beer> listBeers(){
         return beerService.listBeers();
     }
 
-    @GetMapping("/{beerId}")
+    @GetMapping(BEER_PATH_ID)
     public Beer getBeerById(@PathVariable("beerId") UUID id){        
 
         return beerService.getBeerById(id);
     }
 
-    @PostMapping()
+    @PostMapping(BEER_PATH)
     public ResponseEntity handlePost(@RequestBody Beer beer){
 
         Beer savedBeer = beerService.saveNewBeer(beer);
@@ -49,7 +51,7 @@ public class BeerController {
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 
-     @PutMapping("/{beerId}")
+     @PutMapping(BEER_PATH_ID)
     public ResponseEntity updateById(@PathVariable UUID beerId, @RequestBody Beer beer){
 
         beerService.updateBeerById(beerId, beer);
@@ -57,7 +59,7 @@ public class BeerController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/{beerId}")
+    @DeleteMapping(BEER_PATH_ID)
     public ResponseEntity deleteById(@PathVariable UUID beerId){
 
         beerService.deleteById(beerId);
@@ -65,7 +67,7 @@ public class BeerController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @PatchMapping("/{beerId}")
+    @PatchMapping(BEER_PATH_ID)
     public ResponseEntity updateBeerPatchId(@PathVariable UUID beerId, @RequestBody Beer beer){
 
         beerService.patchBeerById(beerId, beer);
