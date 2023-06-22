@@ -25,7 +25,7 @@ public class CustomerServiceImpl implements CustomerService{
                 .customerName("Andrew Thumma")
                 .createdDate(LocalDateTime.now())
                 .lastModifiedDate(LocalDateTime.now())
-                .version("1")
+                .version(1)
                 .build();
 
         CustomerDTO customer2 = CustomerDTO.builder()
@@ -33,7 +33,7 @@ public class CustomerServiceImpl implements CustomerService{
                 .customerName("Jameson Thumma")
                 .createdDate(LocalDateTime.now())
                 .lastModifiedDate(LocalDateTime.now())
-                .version("1")
+                .version(1)
                 .build();
 
         customerMap.put(customer1.getId(), customer1);
@@ -55,7 +55,7 @@ public class CustomerServiceImpl implements CustomerService{
         
         CustomerDTO savedCustomer = CustomerDTO.builder()
                 .id(UUID.randomUUID())
-                .version("1")
+                .version(1)
                 .customerName(customer.getCustomerName())
                 .createdDate(LocalDateTime.now())
                 .lastModifiedDate(LocalDateTime.now())
