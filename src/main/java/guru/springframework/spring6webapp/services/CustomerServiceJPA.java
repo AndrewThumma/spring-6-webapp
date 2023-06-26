@@ -9,8 +9,6 @@ import java.util.stream.Collectors;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
-
 import guru.springframework.spring6webapp.mappers.CustomerMapper;
 import guru.springframework.spring6webapp.model.CustomerDTO;
 import guru.springframework.spring6webapp.repositories.CustomerRepository;
