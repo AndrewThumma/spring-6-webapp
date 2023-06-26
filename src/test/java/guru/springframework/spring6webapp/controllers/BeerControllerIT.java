@@ -3,6 +3,8 @@ package guru.springframework.spring6webapp.controllers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 
 import guru.springframework.spring6webapp.entities.Beer;
@@ -48,9 +50,25 @@ public class BeerControllerIT {
         
     }
 
+    @Rollback
+    @Transactional
     @Test
     void testHandlePost() {
+        BeerDTO beerDto = BeerDTO.builder()
+            .beerName("New Beer")
+            .build();
 
+        ResponseEntity responseEntity = beerController.handlePost(beerDto);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(201));
+        assertThat(responseEntity.getHeaders().getLocation()).isNotNull();
+
+        String[] locationUUID = responseEntity.getHeaders().getLocation().getPath().split("/");
+        UUID savedUUID = UUID.fromString(locationUUID[3]);
+
+        Beer beer = beerRepository.findById(savedUUID).get();
+
+        assertThat(beer).isNotNull();
     }
 
     @Test
