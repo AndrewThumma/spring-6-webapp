@@ -48,7 +48,7 @@ public class CustomerControllerTest {
     }
 
     @Test
-    void getBeerByIdNotFound() throws Exception{
+    void getCustomerByIdNotFound() throws Exception{
         
         given(customerService.getCustomerById(any(UUID.class))).willReturn(Optional.empty());
         

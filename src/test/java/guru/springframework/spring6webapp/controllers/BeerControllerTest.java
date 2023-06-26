@@ -3,6 +3,8 @@ package guru.springframework.spring6webapp.controllers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -25,6 +27,8 @@ import guru.springframework.spring6webapp.model.BeerDTO;
 import guru.springframework.spring6webapp.services.BeerService;
 import guru.springframework.spring6webapp.services.BeerServiceImpl;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @WebMvcTest(BeerController.class)
 class BeerControllerTest {
     
@@ -38,6 +42,9 @@ class BeerControllerTest {
     BeerService beerService;
 
     BeerServiceImpl beerServiceImpl;
+
+    @Captor
+    ArgumentCaptor<UUID> uuidArgumentCaptor;
 
     @BeforeEach
     void setUp() {
@@ -101,6 +108,8 @@ class BeerControllerTest {
     void testUpdateBeer() throws Exception{
         BeerDTO beer = beerServiceImpl.listBeers().get(0);
 
+        given(beerService.updateBeerById(any(), any())).willReturn(Optional.of(beer));
+
         mvc.perform(put(BeerController.BEER_PATH_ID, beer.getId())
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -109,5 +118,20 @@ class BeerControllerTest {
 
         verify(beerService).updateBeerById(any(UUID.class), any(BeerDTO.class));
         
+    }
+
+    @Test
+    void testDeleteBeer() throws Exception{
+        BeerDTO beer = beerServiceImpl.listBeers().get(0);
+
+        given(beerService.deleteById(any())).willReturn(true);
+
+        mvc.perform(delete(BeerController.BEER_PATH_ID, beer.getId())
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNoContent());
+
+        verify(beerService).deleteById(uuidArgumentCaptor.capture());
+
+        assertThat(beer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
     }
 }

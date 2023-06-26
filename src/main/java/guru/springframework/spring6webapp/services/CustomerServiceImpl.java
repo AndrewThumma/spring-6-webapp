@@ -8,9 +8,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.swing.text.html.Option;
+
 import org.springframework.stereotype.Service;
 
 import guru.springframework.spring6webapp.model.CustomerDTO;
+import guru.springframework.spring6webapp.repositories.CustomerRepository;
 
 @Service
 public class CustomerServiceImpl implements CustomerService{
@@ -67,7 +70,9 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public void updateCustomerById(UUID customerId, CustomerDTO customer){
+    public Optional<CustomerDTO> updateCustomerById(UUID customerId, CustomerDTO customer){
+        
+        
         CustomerDTO updatedCustomer = customerMap.get(customerId);
 
         updatedCustomer.setCustomerName(customer.getCustomerName());
@@ -75,12 +80,16 @@ public class CustomerServiceImpl implements CustomerService{
         updatedCustomer.setLastModifiedDate(LocalDateTime.now());
 
         customerMap.put(updatedCustomer.getId(), updatedCustomer);
+
+        return Optional.of(updatedCustomer);
     }
 
     @Override
-    public void deleteById(UUID customerId) {
+    public Boolean deleteById(UUID customerId) {
         
         customerMap.remove(customerId);
+
+        return true;
     }
     
 }

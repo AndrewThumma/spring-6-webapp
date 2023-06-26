@@ -3,10 +3,13 @@ package guru.springframework.spring6webapp.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
 
 import guru.springframework.spring6webapp.mappers.CustomerMapper;
 import guru.springframework.spring6webapp.model.CustomerDTO;
@@ -35,20 +38,31 @@ public class CustomerServiceJPA implements CustomerService{
 
     @Override
     public CustomerDTO saveCustomer(CustomerDTO customer) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveCustomer'");
+        return customerMapper.customerToCustomerDto(customerRepository.save(customerMapper.customerDtoToCustomer(customer)));
     }
 
     @Override
-    public void updateCustomerById(UUID customerId, CustomerDTO customer) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateCustomerById'");
+    public Optional<CustomerDTO> updateCustomerById(UUID customerId, CustomerDTO customer) {
+        AtomicReference<Optional<CustomerDTO>> atomicReference = new AtomicReference<>();
+
+        customerRepository.findById(customerId).ifPresentOrElse(foundCustomer -> {
+            foundCustomer.setCustomerName(customer.getCustomerName());
+            atomicReference.set(Optional.of(customerMapper.customerToCustomerDto(customerRepository.save(foundCustomer))));
+        }, () -> {
+            atomicReference.set(Optional.empty());
+        });
+
+        return atomicReference.get();
     }
 
     @Override
-    public void deleteById(UUID customerId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
+    public Boolean deleteById(UUID customerId) {
+        if(customerRepository.existsById(customerId)){
+            customerRepository.deleteById(customerId);
+            return true;
+        }
+
+        return false;
     }
     
 }
