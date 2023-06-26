@@ -3,6 +3,7 @@ package guru.springframework.spring6webapp.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Primary;
@@ -40,14 +41,21 @@ public class BeerServiceJPA implements BeerService{
     }
 
     @Override
-    public void updateBeerById(UUID id, BeerDTO beer) {
-        beerRepository.findById(id).ifPresent(foundbBeer -> {
+    public Optional<BeerDTO> updateBeerById(UUID id, BeerDTO beer) {
+        AtomicReference<Optional<BeerDTO>> attAtomicReference = new AtomicReference<>();
+        
+        beerRepository.findById(id).ifPresentOrElse(foundbBeer -> {
             foundbBeer.setBeerName(beer.getBeerName());
             foundbBeer.setBeerStyle(beer.getBeerStyle());
             foundbBeer.setUpc(beer.getUpc());
             foundbBeer.setPrice(beer.getPrice());
-            beerRepository.save(foundbBeer);
+            attAtomicReference.set(Optional.of(beerMapper.beerToBeerDto(beerRepository.save(foundbBeer))));
+        }, () -> {
+            attAtomicReference.set(Optional.empty());
         });
+
+        return attAtomicReference.get();
+
     }
 
     @Override
