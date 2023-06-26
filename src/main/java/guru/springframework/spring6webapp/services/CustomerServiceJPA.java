@@ -3,6 +3,7 @@ package guru.springframework.spring6webapp.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -21,14 +22,15 @@ public class CustomerServiceJPA implements CustomerService{
     private final CustomerMapper customerMapper;
 
     public Optional<CustomerDTO> getCustomerById(UUID id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCustomerById'");
+        return Optional.ofNullable(customerMapper.customerToCustomerDto(customerRepository.findById(id).orElse(null)));
     }
 
     @Override
     public List<CustomerDTO> listCustomers() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listCustomers'");
+        return customerRepository.findAll()
+                .stream()
+                .map(customerMapper::customerToCustomerDto)
+                .collect(Collectors.toList());
     }
 
     @Override
