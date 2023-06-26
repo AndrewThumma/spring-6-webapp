@@ -3,6 +3,7 @@ package guru.springframework.spring6webapp.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -22,14 +23,15 @@ public class BeerServiceJPA implements BeerService{
 
     @Override
     public Optional<BeerDTO> getBeerById(UUID id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBeerById'");
+        return Optional.ofNullable(beerMapper.beerToBeerDto(beerRepository.findById(id).orElse(null)));
     }
 
     @Override
     public List<BeerDTO> listBeers() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listBeers'");
+        return beerRepository.findAll()
+            .stream()
+            .map(beerMapper::beerToBeerDto)
+            .collect(Collectors.toList());
     }
 
     @Override
