@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import guru.springframework.spring6webapp.entities.Beer;
 import guru.springframework.spring6webapp.model.BeerDTO;
 import guru.springframework.spring6webapp.services.BeerService;
 import guru.springframework.spring6webapp.services.BeerServiceImpl;
