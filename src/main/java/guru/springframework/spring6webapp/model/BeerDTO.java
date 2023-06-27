@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 import lombok.Data;
 
@@ -19,9 +20,17 @@ public class BeerDTO {
     @NotBlank
     @NotNull
     private String beerName;
+
+    @NotNull
     private BeerStyle beerStyle;
+    
+    @NotBlank
+    @NotNull
     private String upc;
     private Integer quantityOnHand;
+    
+    @Positive
+    @NotNull
     private BigDecimal price;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
