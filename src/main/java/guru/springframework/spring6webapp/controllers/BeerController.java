@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import guru.springframework.spring6webapp.model.BeerDTO;
+import guru.springframework.spring6webapp.model.BeerStyle;
 import guru.springframework.spring6webapp.services.BeerService;
 import lombok.RequiredArgsConstructor;
 
@@ -31,8 +32,9 @@ public class BeerController {
     private final BeerService beerService;
 
     @GetMapping(BEER_PATH)
-    public List<BeerDTO> listBeers(@RequestParam(required = false) String beerName){
-        return beerService.listBeers(beerName);
+    public List<BeerDTO> listBeers(@RequestParam(required = false) String beerName, 
+                                    @RequestParam(required = false) BeerStyle beerStyle){
+        return beerService.listBeers(beerName, beerStyle);
     }
 
     @GetMapping(BEER_PATH_ID)

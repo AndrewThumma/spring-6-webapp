@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import guru.springframework.spring6webapp.entities.Beer;
 import guru.springframework.spring6webapp.mappers.BeerMapper;
 import guru.springframework.spring6webapp.model.BeerDTO;
+import guru.springframework.spring6webapp.model.BeerStyle;
 import guru.springframework.spring6webapp.repositories.BeerRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -31,19 +32,27 @@ public class BeerServiceJPA implements BeerService{
     }
 
     @Override
-    public List<BeerDTO> listBeers(String beerName) {
+    public List<BeerDTO> listBeers(String beerName, BeerStyle beerStyle) {
         
         List<Beer> beerList;
         
-        if(StringUtils.hasText(beerName)){            
+        if(StringUtils.hasText(beerName) && beerStyle == null){            
             beerList = listBeersByName(beerName);
-        }else {
+        }
+        else if(!StringUtils.hasText(beerName) && beerStyle != null){
+            beerList=listBeersByStyle(beerStyle);
+        }
+        else {
             beerList = beerRepository.findAll();
         }
         
         return beerList.stream()
             .map(beerMapper::beerToBeerDto)
             .collect(Collectors.toList());
+    }
+
+    public List<Beer> listBeersByStyle(BeerStyle beerStyle) {
+        return beerRepository.findAllByBeerStyle(beerStyle);
     }
 
     //support function
