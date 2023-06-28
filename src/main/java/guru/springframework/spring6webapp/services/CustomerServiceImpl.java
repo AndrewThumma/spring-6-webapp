@@ -8,12 +8,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.swing.text.html.Option;
-
 import org.springframework.stereotype.Service;
 
 import guru.springframework.spring6webapp.model.CustomerDTO;
-import guru.springframework.spring6webapp.repositories.CustomerRepository;
 
 @Service
 public class CustomerServiceImpl implements CustomerService{

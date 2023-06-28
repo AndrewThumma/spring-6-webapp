@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import guru.springframework.spring6webapp.repositories.BeerRepository;
 import guru.springframework.spring6webapp.repositories.CustomerRepository;
+import guru.springframework.spring6webapp.services.BeerCsvService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,11 +20,14 @@ public class BootstrapDataTest {
     @Autowired
     CustomerRepository customerRepository;
 
+    @Autowired
+    BeerCsvService beerCsvService;
+
     BootstrapData bootstrapData;
 
     @BeforeEach
     void setUp(){
-        bootstrapData = new BootstrapData(beerRepository, customerRepository);
+        bootstrapData = new BootstrapData(beerRepository, customerRepository, beerCsvService);
     }
     
     @Test
