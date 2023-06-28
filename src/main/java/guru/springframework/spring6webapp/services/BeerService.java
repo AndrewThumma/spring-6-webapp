@@ -10,7 +10,7 @@ import guru.springframework.spring6webapp.model.BeerStyle;
 public interface BeerService {
     Optional<BeerDTO> getBeerById(UUID id);
     
-    public List<BeerDTO> listBeers(String beerName, BeerStyle beerStyle);
+    public List<BeerDTO> listBeers(String beerName, BeerStyle beerStyle, Boolean showInventory);
 
     BeerDTO saveNewBeer(BeerDTO beer);
 

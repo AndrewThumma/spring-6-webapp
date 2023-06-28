@@ -1,5 +1,6 @@
 package guru.springframework.spring6webapp.controllers;
 
+import org.hamcrest.core.IsNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,8 @@ import static org.hamcrest.core.Is.is;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +59,38 @@ public class BeerControllerIT {
     void setUp() {
         mvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
+
+    @Test
+    void testListBeersByStyleAndNameShowInventory() throws Exception{
+        mvc.perform(get(BeerController.BEER_PATH)
+                .queryParam("beerName", "IPA")
+                .queryParam("beerStyle", BeerStyle.IPA.name())
+                .queryParam("showInventory", "true"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.size()", is(310)))
+            .andExpect(jsonPath("$.[0].quantityOnHand").value(IsNull.notNullValue()));
+    }
+
+    @Test
+    void testListBeersByStyleAndNameShowInventoryFalse() throws Exception{
+        mvc.perform(get(BeerController.BEER_PATH)
+                .queryParam("beerName", "IPA")
+                .queryParam("beerStyle", BeerStyle.IPA.name())
+                .queryParam("showInventory", "false"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.size()", is(310)))
+            .andExpect(jsonPath("$.[0].quantityOnHand").value(IsNull.nullValue()));
+    }
+
+    @Test
+    void testListBeersByStyleAndName() throws Exception{
+        mvc.perform(get(BeerController.BEER_PATH)
+                .queryParam("beerName", "IPA")
+                .queryParam("beerStyle", BeerStyle.IPA.name()))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.size()", is(310)));
+    }
+
 
     @Test
     void testListBeersByName() throws Exception{
@@ -155,7 +189,7 @@ public class BeerControllerIT {
 
     @Test
     void testListBeers() {
-        List<BeerDTO> dtos = beerController.listBeers(null, null);
+        List<BeerDTO> dtos = beerController.listBeers(null, null, false);
 
         assertThat(dtos.size()).isGreaterThan(0);
     }
@@ -165,7 +199,7 @@ public class BeerControllerIT {
     @Test
     void testEmptyList(){
         beerRepository.deleteAll();
-        List<BeerDTO> dtos = beerController.listBeers(null, null);
+        List<BeerDTO> dtos = beerController.listBeers(null, null, false);
 
         assertThat(dtos.size()).isEqualTo(0);
     }
