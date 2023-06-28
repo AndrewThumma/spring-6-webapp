@@ -6,7 +6,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import guru.springframework.spring6webapp.entities.Beer;
 import guru.springframework.spring6webapp.model.BeerStyle;
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
 import static org.assertj.core.api.Assertions.assertThat;

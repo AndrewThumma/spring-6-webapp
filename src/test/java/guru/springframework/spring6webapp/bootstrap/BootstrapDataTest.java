@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 import guru.springframework.spring6webapp.repositories.BeerRepository;
 import guru.springframework.spring6webapp.repositories.CustomerRepository;
@@ -12,6 +13,7 @@ import guru.springframework.spring6webapp.services.BeerCsvService;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
+@Import(BeerCsvService.class)
 public class BootstrapDataTest {
     
     @Autowired
@@ -34,7 +36,7 @@ public class BootstrapDataTest {
     void testRun() throws Exception{
         bootstrapData.run();
 
-        assertThat(beerRepository.count()).isEqualTo(3);
+        assertThat(beerRepository.count()).isGreaterThan(0);
         assertThat(customerRepository.count()).isEqualTo(2);
     }
 }
