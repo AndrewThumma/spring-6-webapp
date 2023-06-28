@@ -58,6 +58,14 @@ public class BeerControllerIT {
     }
 
     @Test
+    void testListBeersByName() throws Exception{
+        mvc.perform(get(BeerController.BEER_PATH)
+            .queryParam("beerName", "IPA"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.size()", is(100)));
+    }
+
+    @Test
     void testPatchBeerBadName() throws Exception {
         Beer beer = beerRepository.findAll().get(0);
 
@@ -82,7 +90,7 @@ public class BeerControllerIT {
     void testDeleteById() {
         Beer beer = beerRepository.findAll().get(0);
 
-        ResponseEntity responseEntity = beerController.deleteById(beer.getId());
+        ResponseEntity<String> responseEntity = beerController.deleteById(beer.getId());
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
         assertThat(beerRepository.findById(beer.getId())).isEmpty();
