@@ -47,6 +47,7 @@ public class Beer {
     private String beerName;
     
     @NotNull
+    @Column(columnDefinition = "smallint")
     private BeerStyle beerStyle;
     
     @NotNull
