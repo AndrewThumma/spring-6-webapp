@@ -17,13 +17,13 @@ import jakarta.validation.ConstraintViolationException;
 public class CustomErrorController {
 
     @ExceptionHandler
-    ResponseEntity handleJPAViolations(TransactionSystemException e){
+    ResponseEntity<List<Map<String, String>>> handleJPAViolations(TransactionSystemException e){
         ResponseEntity.BodyBuilder responseEntity = ResponseEntity.badRequest();
 
         if(e.getCause().getCause() instanceof ConstraintViolationException){
             ConstraintViolationException ve = (ConstraintViolationException) e.getCause().getCause();
 
-            List errors = ve.getConstraintViolations().stream()
+            List<Map<String,String>> errors = ve.getConstraintViolations().stream()
                 .map(constraintViolation -> {
                     Map<String, String> errMap = new HashMap<>();
                     errMap.put(constraintViolation.getPropertyPath().toString(),constraintViolation.getMessage());
@@ -36,9 +36,9 @@ public class CustomErrorController {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    ResponseEntity handleBindErrors(MethodArgumentNotValidException e){
+    ResponseEntity<List<Map<String,String>>> handleBindErrors(MethodArgumentNotValidException e){
 
-        List errorList = e.getFieldErrors().stream()
+        List<Map<String,String>> errorList = e.getFieldErrors().stream()
             .map(fieldError -> {
                 Map<String, String> errorMap = new HashMap<>();
                 errorMap.put(fieldError.getField(), fieldError.getDefaultMessage());
