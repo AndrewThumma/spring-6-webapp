@@ -1,5 +1,7 @@
 package guru.springframework.spring6webapp.model;
 
+import com.opencsv.bean.CsvBindByName;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,19 +10,45 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BeerCSVRecord {
+    
+    @CsvBindByName
     private Integer row;
+    
+    @CsvBindByName(column = "count.x")
     private Integer count;
+
+    @CsvBindByName
     private String abv;
+
+    @CsvBindByName
     private String ibu;
     private Integer id;
+
+    @CsvBindByName
     private String beer;
-    private String style;
-    private String brewweryId;
-    private Float ounces;
-    private String style2;
-    private String count_y;
-    private String city;
-    private String state;
-    private String label;
     
+    @CsvBindByName
+    private String style;
+
+    @CsvBindByName(column = "brewery_id")
+    private String brewweryId;
+    
+    @CsvBindByName
+    private Float ounces;
+
+    @CsvBindByName
+    private String style2;
+
+    @CsvBindByName(column = "count.y")
+    private String count_y;
+
+    @CsvBindByName
+    private String city;
+
+    @CsvBindByName
+    private String state;
+
+    @CsvBindByName
+    private String label;
+
 }
