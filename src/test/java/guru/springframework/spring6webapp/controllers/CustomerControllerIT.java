@@ -12,12 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import guru.springframework.spring6webapp.entities.Beer;
 import guru.springframework.spring6webapp.entities.Customer;
 import guru.springframework.spring6webapp.mappers.CustomerMapper;
-import guru.springframework.spring6webapp.model.BeerDTO;
 import guru.springframework.spring6webapp.model.CustomerDTO;
-import guru.springframework.spring6webapp.repositories.BeerRepository;
 import guru.springframework.spring6webapp.repositories.CustomerRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,7 +40,7 @@ public class CustomerControllerIT {
             .customerName("New Customer")
             .build();
 
-        ResponseEntity responseEntity = customerController.createCustomer(dto);
+        ResponseEntity<String> responseEntity = customerController.createCustomer(dto);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(201));
         assertThat(responseEntity.getHeaders().getLocation()).isNotNull();
@@ -62,7 +59,7 @@ public class CustomerControllerIT {
     void testDeleteById() {
         Customer customer = customerRepository.findAll().get(0);
 
-        ResponseEntity responseEntity = customerController.deleteById(customer.getId());
+        ResponseEntity<String> responseEntity = customerController.deleteById(customer.getId());
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
         assertThat(customerRepository.findById(customer.getId())).isEmpty();
@@ -122,7 +119,7 @@ public class CustomerControllerIT {
         final String customerName = "Frank";
         dto.setCustomerName(customerName);
 
-        ResponseEntity responseEntity = customerController.updateCustomerById(customer.getId(), dto);
+        ResponseEntity<String> responseEntity = customerController.updateCustomerById(customer.getId(), dto);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
 
         Customer updated = customerRepository.findById(customer.getId()).get();

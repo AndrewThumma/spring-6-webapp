@@ -168,7 +168,7 @@ public class BeerControllerIT {
         final String beerName = "UPDATED";
         dto.setBeerName(beerName);
 
-        ResponseEntity responseEntity = beerController.updateById(beer.getId(), dto);
+        ResponseEntity<String> responseEntity = beerController.updateById(beer.getId(), dto);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
 
         Beer updatedBeer = beerRepository.findById(beer.getId()).get();
