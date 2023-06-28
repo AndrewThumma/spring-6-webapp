@@ -9,11 +9,12 @@ import org.springframework.context.annotation.Import;
 import guru.springframework.spring6webapp.repositories.BeerRepository;
 import guru.springframework.spring6webapp.repositories.CustomerRepository;
 import guru.springframework.spring6webapp.services.BeerCsvService;
+import guru.springframework.spring6webapp.services.BeerCsvServiceImpl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@Import(BeerCsvService.class)
+@Import(BeerCsvServiceImpl.class)
 public class BootstrapDataTest {
     
     @Autowired
