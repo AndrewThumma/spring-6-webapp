@@ -1,8 +1,9 @@
 package guru.springframework.spring6webapp.repositories;
 
-import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import guru.springframework.spring6webapp.entities.Beer;
@@ -10,9 +11,9 @@ import guru.springframework.spring6webapp.model.BeerStyle;
 
 public interface BeerRepository extends JpaRepository<Beer, UUID>{
     
-    List<Beer> findAllByBeerNameIsLikeIgnoreCase(String beerName);
+    Page<Beer> findAllByBeerNameIsLikeIgnoreCase(String beerName, Pageable pageable);
 
-    List<Beer> findAllByBeerStyle(BeerStyle beerStyle);
+    Page<Beer> findAllByBeerStyle(BeerStyle beerStyle, Pageable pageable);
 
-    List<Beer> findAllByBeerNameIsLikeIgnoreCaseAndBeerStyle(String beerName, BeerStyle beerStyle);
+    Page<Beer> findAllByBeerNameIsLikeIgnoreCaseAndBeerStyle(String beerName, BeerStyle beerStyle, Pageable pageable);
 }

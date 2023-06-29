@@ -61,11 +61,11 @@ class BeerControllerTest {
     @Test
     void testCreateNewBeer() throws Exception{
 
-        BeerDTO beer = beerServiceImpl.listBeers(null, null, false, 1, 25).get(0);
+        BeerDTO beer = beerServiceImpl.listBeers(null, null, false, 1, 25).getContent().get(0);
         beer.setVersion(null);
         beer.setId(null);
 
-        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers(null, null, false, 1, 25).get(1));
+        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers(null, null, false, 1, 25).getContent().get(1));
 
         mvc.perform(post(BeerController.BEER_PATH)
                 .accept(MediaType.APPLICATION_JSON)
@@ -87,7 +87,7 @@ class BeerControllerTest {
     @Test
     void testGetBeerById() throws Exception{
 
-        BeerDTO testBeer = beerServiceImpl.listBeers(null, null, false, 1, 25).get(0);
+        BeerDTO testBeer = beerServiceImpl.listBeers(null, null, false, 1, 25).getContent().get(0);
 
         given(beerService.getBeerById(testBeer.getId())).willReturn(Optional.of(testBeer));
 
@@ -108,12 +108,12 @@ class BeerControllerTest {
             .accept(MediaType.APPLICATION_JSON))        
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.length()", is(3)));
+            .andExpect(jsonPath("$.content.length()", is(3)));
     }
 
     @Test
     void testUpdateBeer() throws Exception{
-        BeerDTO beer = beerServiceImpl.listBeers(null, null, false, 1, 25).get(0);
+        BeerDTO beer = beerServiceImpl.listBeers(null, null, false, 1, 25).getContent().get(0);
 
         given(beerService.updateBeerById(any(), any())).willReturn(Optional.of(beer));
 
@@ -129,7 +129,7 @@ class BeerControllerTest {
 
     @Test
     void testUpdateNullBeer() throws Exception{
-        BeerDTO dto = beerServiceImpl.listBeers(null, null, false, 1, 25).get(0);
+        BeerDTO dto = beerServiceImpl.listBeers(null, null, false, 1, 25).getContent().get(0);
         dto.setBeerName(null);
         dto.setBeerStyle(null);
         dto.setUpc(null);
@@ -150,7 +150,7 @@ class BeerControllerTest {
 
     @Test
     void testDeleteBeer() throws Exception{
-        BeerDTO beer = beerServiceImpl.listBeers(null, null, false, 1, 25).get(0);
+        BeerDTO beer = beerServiceImpl.listBeers(null, null, false, 1, 25).getContent().get(0);
 
         given(beerService.deleteById(any())).willReturn(true);
 
@@ -167,7 +167,7 @@ class BeerControllerTest {
     void testCreateBeerNullBeer() throws Exception {
         BeerDTO dto = BeerDTO.builder().build();
 
-        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers(null, null, false, 1, 25).get(1));
+        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers(null, null, false, 1, 25).getContent().get(1));
 
         MvcResult mvcResult = mvc.perform(post(BeerController.BEER_PATH)
             .accept(MediaType.APPLICATION_JSON)
@@ -182,7 +182,7 @@ class BeerControllerTest {
 
     @Test
     void testPatchBeer() throws Exception{
-        BeerDTO beer = beerServiceImpl.listBeers(null, null, false, 1, 25).get(0);
+        BeerDTO beer = beerServiceImpl.listBeers(null, null, false, 1, 25).getContent().get(0);
 
         Map<String, Object> beerMap = new HashMap<>();
         beerMap.put("beerName", "New Name");

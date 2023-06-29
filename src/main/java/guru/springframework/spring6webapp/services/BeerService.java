@@ -1,8 +1,9 @@
 package guru.springframework.spring6webapp.services;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import org.springframework.data.domain.Page;
 
 import guru.springframework.spring6webapp.model.BeerDTO;
 import guru.springframework.spring6webapp.model.BeerStyle;
@@ -10,7 +11,7 @@ import guru.springframework.spring6webapp.model.BeerStyle;
 public interface BeerService {
     Optional<BeerDTO> getBeerById(UUID id);
     
-    public List<BeerDTO> listBeers(String beerName, BeerStyle beerStyle, Boolean showInventory, Integer pageNumber, Integer pageSize);
+    public Page<BeerDTO> listBeers(String beerName, BeerStyle beerStyle, Boolean showInventory, Integer pageNumber, Integer pageSize);
 
     BeerDTO saveNewBeer(BeerDTO beer);
 
