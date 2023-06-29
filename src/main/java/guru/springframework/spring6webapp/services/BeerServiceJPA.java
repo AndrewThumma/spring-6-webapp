@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -25,13 +26,18 @@ public class BeerServiceJPA implements BeerService{
     private final BeerRepository beerRepository;
     private final BeerMapper beerMapper;
 
+    private static final int DEFAULT_PAGE = 0;
+    private static final int DEFAULT_PAGE_SIZE = 25;
+
     @Override
     public Optional<BeerDTO> getBeerById(UUID id) {
         return Optional.ofNullable(beerMapper.beerToBeerDto(beerRepository.findById(id).orElse(null)));
     }
 
     @Override
-    public List<BeerDTO> listBeers(String beerName, BeerStyle beerStyle, Boolean showInventory) {
+    public List<BeerDTO> listBeers(String beerName, BeerStyle beerStyle, Boolean showInventory, Integer pageNumber, Integer pageSize) {            
+        
+        PageRequest pageRequest = buildPageRequest(pageNumber, pageSize);
         
         List<Beer> beerList;
         
@@ -57,7 +63,31 @@ public class BeerServiceJPA implements BeerService{
             .collect(Collectors.toList());
     }
 
-    private List<Beer> listBeersByNameStyle(String beerName, BeerStyle beerStyle) {
+    public PageRequest buildPageRequest(Integer pageNumber, Integer pageSize){
+        int queryPageNumber;
+        int queryPageSize;
+
+        if (pageNumber != null && pageNumber > 0){
+            queryPageNumber = pageNumber -1;
+        }else {
+            queryPageNumber = DEFAULT_PAGE;
+        }
+
+        if (pageSize == null) {            
+            queryPageSize = DEFAULT_PAGE_SIZE;
+        }else {
+            if (pageSize > 1000){
+                queryPageSize = 1000;
+            } else{
+                queryPageSize = pageSize;
+            }            
+        }
+
+        return PageRequest.of(queryPageNumber, queryPageSize);
+
+    }
+
+    public List<Beer> listBeersByNameStyle(String beerName, BeerStyle beerStyle) {
         return beerRepository.findAllByBeerNameIsLikeIgnoreCaseAndBeerStyle("%" + beerName + "%", beerStyle);
     }
 
