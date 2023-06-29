@@ -1,10 +1,8 @@
 package guru.springframework.spring6webapp.services;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
